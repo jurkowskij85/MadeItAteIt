@@ -1,7 +1,7 @@
 {
   "Name": "Made It, Ate It",
-  "Version": "0.3.0",
+  "Version": "0.4.0",
   "Id": "Jurkowski.MadeItAteIt",
   "MinimumGameVersion": "1.1.0.0",
-  "Description": "Workers get first dibs on the food/water they produce (production buildings) or harvest (farmers, gatherers) when their hunger/thirst drops below 0.1. Per-building toggle, off by default."
+  "Description": "Workers get first dibs on the food/water they produce (production buildings) or harvest (farmers, gatherers): the moment their hunger/thirst drops below 0.1 they take one unit. Per-building toggle, off by default."
 }
