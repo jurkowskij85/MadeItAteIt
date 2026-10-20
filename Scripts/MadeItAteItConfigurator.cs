@@ -15,6 +15,7 @@ namespace MadeItAteIt {
       Bind<WorkerPriority>().AsTransient();
       Bind<HarvesterSnack>().AsTransient();
       Bind<WorkersFirstFragment>().AsSingleton();
+      Bind<WorkersFirstBatchControl>().AsSingleton();
       MultiBind<TemplateModule>().ToProvider(ProvideTemplateModule).AsSingleton();
       MultiBind<EntityPanelModule>().ToProvider<EntityPanelModuleProvider>().AsSingleton();
     }
