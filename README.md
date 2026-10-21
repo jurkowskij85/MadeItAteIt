@@ -99,6 +99,25 @@ Jeśli PowerShell blokuje skrypty, uruchom raz: `Set-ExecutionPolicy -Scope Curr
 3. Skopiuj zawartość tego repozytorium do `Assets/Mods/MadeItAteIt` (foldery `Build~` i `dist~` Unity pomija).
 4. Otwórz `Timberborn → Show Mod Builder`, zaznacz **Made It, Ate It** i kliknij **Build**. Mod trafi do `Dokumenty\Timberborn\Mods`. **Clean build** może dodatkowo utworzyć ZIP do publikacji.
 
+## Publikacja i aktualizacja na Steam Workshop
+
+Mod wysyła się z poziomu gry, przez Menedżer modów:
+
+1. Podbij `Version` w `manifest.json`.
+2. Zbuduj i zainstaluj moda: `.\build.ps1 -Install` (albo Mod Builder w Unity). Mod musi być w `Dokumenty\Timberborn\Mods\MadeItAteIt`.
+3. Uruchom grę. W menu głównym otwórz **Mody** (Menedżer modów) i przy **Made It, Ate It** otwórz panel wysyłania (Upload).
+4. Przy aktualizacji zaznacz, co jeszcze nadpisać (opis, widoczność, miniaturę). **Nie zaznaczaj „Upload as new”**, bo to tworzy nowy, osobny mod na Workshopie.
+5. Kliknij **Upload**.
+
+Ważne:
+
+- Po pierwszym wysłaniu gra tworzy w folderze moda plik `workshop_data.json` z numerem moda na Workshopie (`ItemId`). Dzięki niemu kolejne wysłanie **aktualizuje** istniejący mod, a nie tworzy nowy. `build.ps1 -Install` zachowuje ten plik przy reinstalacji. Warto też skopiować go do repozytorium, obok `manifest.json`. Wtedy skrypt odtworzy go nawet po usunięciu folderu moda.
+- Nazwa moda pochodzi z `manifest.json` i nie da się jej zmienić w panelu. Opis również jest brany z manifestu, ale w panelu można go nadpisać.
+- Miniatura to `thumbnail.png` (lub `.jpg`) z głównego folderu moda. Musi mieć mniej niż 1 MB.
+- Jeśli mod Harmony jest wymagany, warto też dodać go jako wymagany element w ustawieniach moda na stronie Workshopu.
+
+Na [mod.io](https://mod.io/g/timberborn) mod aktualizuje się ręcznie: na stronie moda wgrywa się nowy plik ZIP, np. `dist~\MadeItAteIt-<wersja>.zip` z `build.ps1`.
+
 ## Struktura projektu
 
 | Plik | Opis |

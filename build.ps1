@@ -65,7 +65,18 @@ Write-Host "Paczka: $zip"
 # 5. Install
 if ($Install) {
   $target = Join-Path ([Environment]::GetFolderPath("MyDocuments")) "Timberborn\Mods\MadeItAteIt"
+  # workshop_data.json holds the Steam Workshop item id. Without it the next upload would create
+  # a brand new Workshop item instead of updating the existing one, so it must survive reinstalling.
+  $workshopData = Join-Path $target "workshop_data.json"
+  $savedWorkshopData = Join-Path ([IO.Path]::GetTempPath()) "MadeItAteIt_workshop_data.json"
+  $hasWorkshopData = Test-Path $workshopData
+  if ($hasWorkshopData) { Copy-Item $workshopData $savedWorkshopData -Force }
   if (Test-Path $target) { Remove-Item $target -Recurse -Force }
   Copy-Item $modDir $target -Recurse
+  if ($hasWorkshopData) {
+    Move-Item $savedWorkshopData $workshopData -Force
+  } elseif (Test-Path (Join-Path $root "workshop_data.json")) {
+    Copy-Item (Join-Path $root "workshop_data.json") $target
+  }
   Write-Host "Zainstalowano w: $target"
 }
