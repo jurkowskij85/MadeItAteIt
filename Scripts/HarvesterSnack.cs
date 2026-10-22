@@ -14,23 +14,21 @@ using Timberborn.Yielding;
 namespace MadeItAteIt {
   // Attached to every character with a YielderRemover.
   //
-  // Farmers (FarmHouse): the harvest is carried back as usual. The moment it lands in the farmhouse
-  // inventory, a farmer whose Hunger/Thirst is below the threshold eats one unit of it. This happens
-  // inside the game's CarryRootBehavior.CompleteDelivery (Inventory.Give* -> GoodCarrier.EmptyHands),
-  // in the same call, so haulers have no chance to reserve the goods first.
-  //
-  // Gatherers (GathererFlag): one unit is eaten straight from the hands, right at the bush.
+  // Farmers (FarmHouse) and gatherers (GathererFlag) carry the harvest back as usual. The moment it
+  // lands in their workplace's inventory, a worker whose Hunger/Thirst is below the threshold eats
+  // one unit of it. This happens inside the game's CarryRootBehavior.CompleteDelivery
+  // (Inventory.Give* -> GoodCarrier.EmptyHands), in the same call, so haulers have no chance to
+  // reserve the goods first.
   public class HarvesterSnack : BaseComponent, IAwakableComponent {
 
     private readonly IGoodService _goodService;
     private readonly EventBus _eventBus;
     private YielderRemover _yielderRemover;
     private GoodCarrier _goodCarrier;
-    private GoodReserver _goodReserver;
     private Worker _worker;
     private NeedManager _needManager;
 
-    // Farmer delivery tracking.
+    // Delivery tracking (set after an edible harvest, cleared when hands empty).
     private readonly List<Inventory> _watchedInventories = new List<Inventory>();
     private string _harvestGoodId;
     private Inventory _deliveredTo;
@@ -44,10 +42,9 @@ namespace MadeItAteIt {
     public void Awake() {
       _yielderRemover = GetComponent<YielderRemover>();
       _goodCarrier = GetComponent<GoodCarrier>();
-      _goodReserver = GetComponent<GoodReserver>();
       _worker = GetComponent<Worker>();
       _needManager = GetComponent<NeedManager>();
-      if (_yielderRemover != null && _goodCarrier != null && _goodReserver != null && _worker != null
+      if (_yielderRemover != null && _goodCarrier != null && _worker != null
           && _needManager != null && GetComponent<Bot>() == null) {
         _yielderRemover.YieldReservationCompleted += OnYieldReservationCompleted;
         _goodCarrier.CarriedGoodsChanged += OnCarriedGoodsChanged;
@@ -65,15 +62,13 @@ namespace MadeItAteIt {
       if (!WorkerMealPicker.ServesBasicNeed(good)) {
         return;
       }
-      if (workplace.GetComponent<FarmHouse>() != null) {
-        // Eat later, when the harvest is delivered to the farmhouse.
+      if (workplace.GetComponent<FarmHouse>() != null || workplace.GetComponent<GathererFlag>() != null) {
+        // Eat later, when the harvest is delivered to the workplace.
         StartWatching(workplace, goodId);
-      } else if (workplace.GetComponent<GathererFlag>() != null) {
-        EatFromHandsIfHungry(goodId, good);
       }
     }
 
-    // ---- Farmers: eat on delivery to the farmhouse ----
+    // ---- Eat on delivery to the workplace ----
 
     private void StartWatching(Workplace workplace, string goodId) {
       StopWatching();
@@ -119,7 +114,7 @@ namespace MadeItAteIt {
         }
         return;
       }
-      // Hands just emptied. If it was our delivery into the farmhouse (same frame), eat from it now.
+      // Hands just emptied. If it was our delivery into the workplace (same frame), eat from it now.
       var inventory = _deliveredTo;
       var goodId = _harvestGoodId;
       var delivered = inventory != null && _deliveredFrame == UnityEngine.Time.frameCount;
@@ -145,38 +140,6 @@ namespace MadeItAteIt {
       inventory.TakeConsumed(unit);
       WorkerMealPicker.ApplyConsumption(_worker, good, _eventBus);
       UnityEngine.Debug.Log($"[MadeItAteIt] {Name} ate {goodId} on delivery to {workplace.Name}");
-    }
-
-    // ---- Gatherers: eat from hands at the bush ----
-
-    private void EatFromHandsIfHungry(string goodId, GoodSpec good) {
-      var carried = _goodCarrier.CarriedGood;
-      if (carried.IsEmpty || carried.GoodAmount.GoodId != goodId) {
-        return;
-      }
-      if (WorkerMealPicker.MissingPoints(_needManager, good) <= 0f) {
-        return;
-      }
-      EatOneFromHands(carried, goodId);
-      WorkerMealPicker.ApplyConsumption(_worker, good, _eventBus);
-      UnityEngine.Debug.Log($"[MadeItAteIt] {Name} ate {goodId} while gathering");
-    }
-
-    // CarryRootBehavior.CompleteDelivery gives the receiving inventory CapacityReservation.GoodAmount,
-    // not what is in hands - so both must shrink together or the good would be duplicated.
-    private void EatOneFromHands(CarriedGood carried, string goodId) {
-      var remaining = carried.GoodAmount.Amount - 1;
-      var reservation = _goodReserver.CapacityReservation;
-      _goodCarrier.EmptyHands();
-      if (remaining <= 0) {
-        _goodReserver.UnreserveCapacity();
-        return;
-      }
-      var rest = new GoodAmount(goodId, remaining);
-      _goodCarrier.PutGoodsInHands(new CarriedGood(rest, carried.Type));
-      if (reservation.Inventory != null && reservation.Inventory.Enabled && reservation.GoodAmount.GoodId == goodId) {
-        _goodReserver.ReserveCapacity(reservation.Inventory, rest);
-      }
     }
 
     private static bool IsOn(Workplace workplace) {

@@ -29,7 +29,7 @@ namespace MadeItAteIt {
       builder.AddDecorator<GathererFlag, WorkersFirstSettings>();
       // Production buildings: eat from the building's inventory when production finishes.
       builder.AddDecorator<ManufactorySpec, WorkerPriority>();
-      // Every character able to harvest/gather: farmers eat on delivery to the farmhouse, gatherers at the bush.
+      // Every character able to harvest/gather: eat one unit when the harvest is delivered to the workplace.
       builder.AddDecorator<YielderRemover, HarvesterSnack>();
       return builder.Build();
     }

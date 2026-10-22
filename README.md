@@ -9,8 +9,7 @@ A Timberborn mod (version 1.1.1, game 1.1+) that lets beavers eat or drink some 
 Each workplace gets a **Workers get priority** toggle. It is off by default. When it is on:
 
 - **Production buildings** (water pumps, bakeries, grills and other manufactories): when a production cycle finishes, one unit of each food or water product goes to the neediest worker inside the building, before haulers can reserve it.
-- **Farmhouses**: a farmer carries the harvest back as usual. The moment it is delivered to the farmhouse, a hungry or thirsty farmer eats one unit of it, before haulers can reserve it.
-- **Gatherer flags**: a gatherer who picks something edible eats one unit straight from their hands, right at the bush. The rest is delivered as usual.
+- **Farmhouses and gatherer flags**: a farmer or gatherer carries the harvest back as usual. The moment it is delivered to the farmhouse or gatherer flag, a hungry or thirsty worker eats one unit of it, before haulers can reserve it.
 
 A beaver only uses this when its **Hunger or Thirst drops below 0.1**. Otherwise the goods go to storage as normal. Bots are never fed. Eating applies the same effects as a normal meal or drink.
 
@@ -48,8 +47,7 @@ Mod do Timberborna (wersja 1.1.1, gra 1.1+). Pozwala bobrom zjeść lub wypić c
 Każde miejsce pracy dostaje przełącznik **Pracownicy mają pierwszeństwo**. Domyślnie jest wyłączony. Po włączeniu:
 
 - **Budynki produkcyjne** (pompy wody, piekarnie, grille i inne warsztaty): po zakończeniu cyklu produkcji jedna sztuka każdego produktu spożywczego lub wody trafia do najbardziej potrzebującego pracownika w budynku, zanim zarezerwują ją tragarze.
-- **Gospodarstwa**: rolnik normalnie odnosi plon do gospodarstwa. W chwili, gdy go tam odda, zjada jedną sztukę, jeśli jest głodny lub spragniony, zanim zarezerwują ją tragarze.
-- **Stanowiska zbieraczy**: zbieracz, który zbiera coś jadalnego, zjada jedną sztukę prosto z rąk, przy krzaku. Resztę odnosi normalnie.
+- **Gospodarstwa i stanowiska zbieraczy**: rolnik lub zbieracz normalnie odnosi plon do swojego budynku. W chwili, gdy go tam odda, zjada jedną sztukę, jeśli jest głodny lub spragniony, zanim zarezerwują ją tragarze.
 
 Bóbr korzysta z tego tylko wtedy, gdy jego **głód lub pragnienie spadnie poniżej 0,1**. W pozostałych przypadkach towar trafia normalnie do magazynu. Boty nigdy nie są karmione. Zjedzenie działa tak samo jak zwykły posiłek lub napój.
 
