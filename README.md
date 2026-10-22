@@ -1,6 +1,6 @@
 # Made It, Ate It
 
-A Timberborn mod (version 1.1.0, game 1.1+) that lets beavers eat or drink some of what they produced or harvested themselves before it leaves their hands.
+A Timberborn mod (version 1.1.1, game 1.1+) that lets beavers eat or drink some of what they produced or harvested themselves before it leaves their hands.
 
 [Polski opis poniżej](#polski)
 
@@ -9,7 +9,8 @@ A Timberborn mod (version 1.1.0, game 1.1+) that lets beavers eat or drink some 
 Each workplace gets a **Workers get priority** toggle. It is off by default. When it is on:
 
 - **Production buildings** (water pumps, bakeries, grills and other manufactories): when a production cycle finishes, one unit of each food or water product goes to the neediest worker inside the building, before haulers can reserve it.
-- **Farmhouses and gatherer flags**: a farmer or gatherer who harvests something edible eats one unit straight from their hands, right on the field or bush. The rest is delivered as usual.
+- **Farmhouses**: a farmer carries the harvest back as usual. The moment it is delivered to the farmhouse, a hungry or thirsty farmer eats one unit of it, before haulers can reserve it.
+- **Gatherer flags**: a gatherer who picks something edible eats one unit straight from their hands, right at the bush. The rest is delivered as usual.
 
 A beaver only uses this when its **Hunger or Thirst drops below 0.1**. Otherwise the goods go to storage as normal. Bots are never fed. Eating applies the same effects as a normal meal or drink.
 
@@ -40,14 +41,15 @@ The scripts reference the game's assemblies from `Timberborn_Data/Managed` and c
 
 ## Polski
 
-Mod do Timberborna (wersja 1.1.0, gra 1.1+). Pozwala bobrom zjeść lub wypić część tego, co same wyprodukowały albo zebrały, zanim to od nich odejdzie.
+Mod do Timberborna (wersja 1.1.1, gra 1.1+). Pozwala bobrom zjeść lub wypić część tego, co same wyprodukowały albo zebrały, zanim to od nich odejdzie.
 
 ### Działanie
 
 Każde miejsce pracy dostaje przełącznik **Pracownicy mają pierwszeństwo**. Domyślnie jest wyłączony. Po włączeniu:
 
 - **Budynki produkcyjne** (pompy wody, piekarnie, grille i inne warsztaty): po zakończeniu cyklu produkcji jedna sztuka każdego produktu spożywczego lub wody trafia do najbardziej potrzebującego pracownika w budynku, zanim zarezerwują ją tragarze.
-- **Gospodarstwa i stanowiska zbieraczy**: rolnik lub zbieracz, który zbiera coś jadalnego, zjada jedną sztukę prosto z rąk, na polu albo przy krzaku. Resztę odnosi normalnie.
+- **Gospodarstwa**: rolnik normalnie odnosi plon do gospodarstwa. W chwili, gdy go tam odda, zjada jedną sztukę, jeśli jest głodny lub spragniony, zanim zarezerwują ją tragarze.
+- **Stanowiska zbieraczy**: zbieracz, który zbiera coś jadalnego, zjada jedną sztukę prosto z rąk, przy krzaku. Resztę odnosi normalnie.
 
 Bóbr korzysta z tego tylko wtedy, gdy jego **głód lub pragnienie spadnie poniżej 0,1**. W pozostałych przypadkach towar trafia normalnie do magazynu. Boty nigdy nie są karmione. Zjedzenie działa tak samo jak zwykły posiłek lub napój.
 
